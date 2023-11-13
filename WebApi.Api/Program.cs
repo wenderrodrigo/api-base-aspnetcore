@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using WebApi.Application;
 using WebApi.Infrastructure;
 
@@ -7,7 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-    builder.Services.AddInfrastructure(builder.Configuration);
+    builder.Services.AddInfrastruture(builder.Configuration);
+    builder.Services.AddTransient();
+
     builder.Services.AddApplication();
     builder.Services.AddCors(options =>
     {
