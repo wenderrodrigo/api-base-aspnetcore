@@ -19,8 +19,8 @@ namespace WebApi.Domain.Entities
         [Column("description")]
         public string? Description { get; set; }
 
-        [Column("category")]
-        public string? Category { get; set; }
+        [Column("id_category")]
+        public int IdCategory { get; set; }
 
         [Column("price")]
         public decimal Price { get; set; }
@@ -35,6 +35,10 @@ namespace WebApi.Domain.Entities
         public DateTime DateRegister { get; set; }
 
         [Column("date_change")]
-        public Nullable<DateTime> DateChange { get; set; }
+        public DateTime? DateChange { get; set; }
+
+        public Category Category { get; set; } = new Category();
+
+        public User User { get; set; } = new User();
     }
 }

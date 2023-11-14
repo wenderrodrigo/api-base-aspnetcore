@@ -49,7 +49,7 @@ namespace WebApi.Application.services
             //var itemCategoryChanged = await _itemRepository.GetCategoryByIdAsync(item.CategoryId);
 
             itemChanged.Name = itemDTO.Name;
-            itemChanged.Category = itemDTO.Category;
+            itemChanged.IdCategory = itemDTO.IdCategory;
             itemChanged.Price = itemDTO.Price;
             itemChanged.Image = itemDTO.Image;
             itemChanged.DateChange = DateTime.Now;
