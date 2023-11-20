@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,10 +15,10 @@ namespace WebApi.Domain.Entities
         public int Id { get; set; }
 
         [Column("name")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         [Column("description")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [Column("id_category")]
         public int IdCategory { get; set; }
@@ -26,7 +27,7 @@ namespace WebApi.Domain.Entities
         public decimal Price { get; set; }
 
         [Column("image")]
-        public string? Image { get; set; }
+        public string Image { get; set; }
 
         [Column("id_user")]
         public int IdUser { get; set; }
@@ -35,10 +36,12 @@ namespace WebApi.Domain.Entities
         public DateTime DateRegister { get; set; }
 
         [Column("date_change")]
-        public DateTime? DateChange { get; set; }
+        public DateTime DateChange { get; set; }
 
-        public Category Category { get; set; } = new Category();
+        [ForeignKey("IdCategory")]
+        public Category Category { get; set; }
 
-        public User User { get; set; } = new User();
+        [ForeignKey("IdUser")]
+        public User User { get; set; }
     }
 }

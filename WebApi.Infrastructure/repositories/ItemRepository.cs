@@ -15,7 +15,7 @@ namespace WebApi.Infrastructure.Repositories
     {
         private readonly AppDbContext _db;
 
-        public ItemRepository(AppDbContext db)
+        public ItemRepository(AppDbContext db, ICategoryRepository categoryRepository)
         {
             _db = db;
         }

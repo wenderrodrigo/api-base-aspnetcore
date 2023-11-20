@@ -21,6 +21,9 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
         services.AddScoped<IItemRepository, ItemRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ICondominiumRepository, CondominiumRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }
@@ -28,7 +31,14 @@ public static class DependencyInjection
     public static IServiceCollection AddTransient(this IServiceCollection services)
     {
         services.AddTransient<IItemServices, ItemServices>();
+        services.AddTransient<ICategoryServices, CategoryServices>();
+        services.AddTransient<ICondominiumServices, CondominiumServices>();
+        services.AddTransient<IUserServices, UserServices>();
         services.AddTransient<IValidator<ItemDTO>, ItemDTOValidator>();
+        services.AddTransient<IValidator<CategoryDTO>, CategoryDTOValidator>();
+        services.AddTransient<IValidator<CondominiumDTO>, CondominiumDTOValidator>();
+        services.AddTransient<IValidator<UserDTO>, UserDTOValidator>();
+        //services.AddTransient<IValidator<UserCondominiumDTO>, UserCondominiumDTOValidator>();
 
         return services;
     }

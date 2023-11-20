@@ -7,12 +7,11 @@ namespace WebApi.Domain.Entities
         [Key]
         public int Id { get; set; }
 
-        [Column("name")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         [Column("status_id")]
-        public string? StatusId { get; set; }
+        public int StatusId { get; set; }
 
-        public List<Item> Items { get; set; } = new List<Item>();
+        public List<Item> Items { get; set; }
     }
 }

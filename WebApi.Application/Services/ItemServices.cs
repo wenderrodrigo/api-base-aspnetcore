@@ -17,10 +17,13 @@ namespace WebApi.Application.services
     {
         //private readonly IMapper _mapper;
         private readonly IItemRepository _itemRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public ItemServices(IItemRepository itemRepository)//, IMapper mapper)
+        public ItemServices(IItemRepository itemRepository,
+            ICategoryRepository categoryRepository)//, IMapper mapper)
         {
             _itemRepository = itemRepository;
+            _categoryRepository = categoryRepository;
             //_mapper = mapper;
         }
 
@@ -44,18 +47,23 @@ namespace WebApi.Application.services
 
         public async Task<Item> ChangeItemAsync(ItemDTO itemDTO)
         {
-            Item? itemChanged = await _itemRepository.GetItemByIdAsync(itemDTO.Id) ?? throw new Exception("Aluno não encontrado para o Cpf informado.");
+            // Obter o item pelo ID
+            Item? itemChanged = await _itemRepository.GetItemByIdAsync(itemDTO.Id) ?? throw new Exception("Item não encontrado para o ID informado.");
 
-            //var itemCategoryChanged = await _itemRepository.GetCategoryByIdAsync(item.CategoryId);
+            // Obter a categoria pelo ID
+            var itemCategoryChanged = await _categoryRepository.GetCategoryByIdAsync(itemDTO.IdCategory) ?? throw new Exception("Categoria não encontrada para o ID informado.");
 
+            // Atualizar os campos do item
             itemChanged.Name = itemDTO.Name;
-            itemChanged.IdCategory = itemDTO.IdCategory;
+            itemChanged.Category = itemCategoryChanged; // Corrigindo o typo 'itemCategoryChangedy'
             itemChanged.Price = itemDTO.Price;
             itemChanged.Image = itemDTO.Image;
             itemChanged.DateChange = DateTime.Now;
 
+            // Salvar as mudanças no item
             return await _itemRepository.ChangeItemAsync(itemChanged);
         }
+
 
         public async Task<Item> DeleteItemAsync(ItemDTO itemDTO)
         {

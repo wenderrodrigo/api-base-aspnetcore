@@ -12,11 +12,13 @@ namespace App.Controllers
     public class ItemsForSaleController : ControllerBase
     {
         private readonly IItemServices _itemsServices;
+        private readonly ICategoryServices _categoryServices;
         private readonly IValidator<ItemDTO> _itemsValidator;
 
-        public ItemsForSaleController(IItemServices itemsServices, IValidator<ItemDTO> itemsValidator)
+        public ItemsForSaleController(IItemServices itemsServices, ICategoryServices categoryServices, IValidator<ItemDTO> itemsValidator)
         {
             _itemsServices = itemsServices ?? throw new ArgumentNullException(nameof(itemsServices));
+            _categoryServices = categoryServices ?? throw new ArgumentNullException(nameof(categoryServices));
             _itemsValidator = itemsValidator ?? throw new ArgumentNullException(nameof(itemsValidator));
         }
 
@@ -38,67 +40,85 @@ namespace App.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult> RegisterItemAsync(ItemDTO itemDto)
-        {
-            try
-            {
-                var validacao = await _itemsValidator.ValidateAsync(itemDto);
+        //[HttpGet("{idUser}")]
+        //public async Task<ActionResult> GetItemsByUserAsync(int idUser)
+        //{
+        //    try
+        //    {
+        //        var items = await _itemsServices.GetItemsByUserAsync(idUser);
 
-                if (!validacao.IsValid)
-                {
-                    return BadRequest(validacao.Errors);
-                }
+        //        if (items is null)
+        //            return NoContent();
 
-                Item item = await _itemsServices.RegisterItemAsync(itemDto);
-                return Ok(item);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //        return Ok(items);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
-        [HttpPut]
-        public async Task<ActionResult> ChangeItemAsync(ItemDTO itemDto)
-        {
-            try
-            {
-                var validacao = await _itemsValidator.ValidateAsync(itemDto);
+        //[HttpPost]
+        //public async Task<ActionResult> RegisterItemAsync(ItemDTO itemDto)
+        //{
+        //    try
+        //    {
+        //        var validacao = await _itemsValidator.ValidateAsync(itemDto);
 
-                if (!validacao.IsValid)
-                {
-                    return BadRequest(validacao.Errors);
-                }
+        //        if (!validacao.IsValid)
+        //        {
+        //            return BadRequest(validacao.Errors);
+        //        }
 
-                Item item = await _itemsServices.ChangeItemAsync(itemDto);
-                return Ok(item);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //        Item item = await _itemsServices.RegisterItemAsync(itemDto);
+        //        return Ok(item);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
-        [HttpDelete]
-        public async Task<ActionResult> DeleteItemAsync(ItemDTO itemDTO)
-        {
-            try
-            {
-                var validacao = await _itemsValidator.ValidateAsync(itemDTO);
+        //[HttpPut]
+        //public async Task<ActionResult> ChangeItemAsync(ItemDTO itemDto)
+        //{
+        //    try
+        //    {
+        //        var validacao = await _itemsValidator.ValidateAsync(itemDto);
 
-                if (!validacao.IsValid)
-                {
-                    return BadRequest(validacao.Errors);
-                }
+        //        if (!validacao.IsValid)
+        //        {
+        //            return BadRequest(validacao.Errors);
+        //        }
 
-                var deletedItem = await _itemsServices.DeleteItemAsync(itemDTO);
-                return Ok(deletedItem);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //        Item item = await _itemsServices.ChangeItemAsync(itemDto);
+        //        return Ok(item);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+
+        //[HttpDelete]
+        //public async Task<ActionResult> DeleteItemAsync(ItemDTO itemDTO)
+        //{
+        //    try
+        //    {
+        //        var validacao = await _itemsValidator.ValidateAsync(itemDTO);
+
+        //        if (!validacao.IsValid)
+        //        {
+        //            return BadRequest(validacao.Errors);
+        //        }
+
+        //        var deletedItem = await _itemsServices.DeleteItemAsync(itemDTO);
+        //        return Ok(deletedItem);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }

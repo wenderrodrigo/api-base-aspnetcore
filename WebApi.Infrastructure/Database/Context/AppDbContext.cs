@@ -17,5 +17,8 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Item> Items { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Condominium> Condominiums { get; set; }
+    public DbSet<User> Users { get; set; }
 
 }

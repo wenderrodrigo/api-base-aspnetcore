@@ -17,7 +17,7 @@ namespace WebApi.Domain.Entities
         public string IdUser { get; set; }
 
         [Column("id_condominium")]
-        public string IdCondominium { get; set; }
+        public int IdCondominium { get; set; }
 
         [Column("status_id")]
         public string? StatusId { get; set; }
