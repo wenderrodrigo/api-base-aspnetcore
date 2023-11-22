@@ -15,16 +15,16 @@ namespace WebApi.Application.services
 {
     public class ItemServices : IItemServices
     {
-        //private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly IItemRepository _itemRepository;
         private readonly ICategoryRepository _categoryRepository;
 
         public ItemServices(IItemRepository itemRepository,
-            ICategoryRepository categoryRepository)//, IMapper mapper)
+            ICategoryRepository categoryRepository, IMapper mapper)
         {
             _itemRepository = itemRepository;
             _categoryRepository = categoryRepository;
-            //_mapper = mapper;
+            _mapper = mapper;
         }
 
 
@@ -38,9 +38,14 @@ namespace WebApi.Application.services
             return await _itemRepository.GetItemsByUserAsync(idUser);
         }
 
+        public async Task<List<Item>> GetItemsAllAsync()
+        {
+            return await _itemRepository.GetItemsAllAsync();
+        }
+
         public async Task<Item> RegisterItemAsync(ItemDTO itemDTO)
         {
-            var item = new Item();// _mapper.Map<Item>(itemDTO);
+            var item = _mapper.Map<Item>(itemDTO);
 
             return await _itemRepository.RegisterItemAsync(item);
         }
@@ -67,7 +72,7 @@ namespace WebApi.Application.services
 
         public async Task<Item> DeleteItemAsync(ItemDTO itemDTO)
         {
-            var item = new Item();//_mapper.Map<Item>(itemDTO);
+            var item = _mapper.Map<Item>(itemDTO);
 
             return await _itemRepository.DeleteItemAsync(item);
         }

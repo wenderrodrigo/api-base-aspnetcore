@@ -36,7 +36,7 @@ namespace WebApi.Domain.Entities
         public DateTime DateRegister { get; set; }
 
         [Column("date_change")]
-        public DateTime DateChange { get; set; }
+        public DateTime? DateChange { get; set; }
 
         [ForeignKey("IdCategory")]
         public Category Category { get; set; }

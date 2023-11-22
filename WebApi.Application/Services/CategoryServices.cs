@@ -15,13 +15,13 @@ namespace WebApi.Application.services
 {
     public class CategoryServices : ICategoryServices
     {
-        //private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryServices(ICategoryRepository categoryRepository)//, IMapper mapper)
+        public CategoryServices(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
-            //_mapper = mapper;
+            _mapper = mapper;
         }
 
         public async Task<Category?> GetCategoryByIdAsync(int id)
@@ -41,7 +41,7 @@ namespace WebApi.Application.services
 
         public async Task<Category> RegisterCategoryAsync(CategoryDTO categoryDTO)
         {
-            var category = new Category();// _mapper.Map<Item>(categoryDTO);
+            var category = _mapper.Map<Category>(categoryDTO);
 
             return await _categoryRepository.RegisterCategoryAsync(category);
         }
@@ -58,7 +58,7 @@ namespace WebApi.Application.services
 
         public async Task<Category> DeleteCategoryAsync(CategoryDTO categoryDTO)
         {
-            var category = new Category();//_mapper.Map<Category>(categoryDTO);
+            var category = _mapper.Map<Category>(categoryDTO);
 
             return await _categoryRepository.DeleteCategoryAsync(category);
         }

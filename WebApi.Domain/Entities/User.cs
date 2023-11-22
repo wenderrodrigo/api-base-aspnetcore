@@ -33,7 +33,7 @@ namespace WebApi.Domain.Entities
         public string PasswordHash { get; set; }
 
         [Column("status_id")]
-        public string? StatusId { get; set; }
+        public StatusType StatusId { get; set; }
 
         [Column("date_register")]
         public DateTime DateRegister { get; set; }

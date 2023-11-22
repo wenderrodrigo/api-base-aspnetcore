@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApi.Domain.Entities.Enum;
 
 namespace WebApi.Domain.Entities
 {
@@ -20,7 +21,7 @@ namespace WebApi.Domain.Entities
         public string? Cnpj { get; set; }
 
         [Column("status_id")]
-        public int StatusId { get; set; }
+        public StatusType StatusId { get; set; }
 
         [Column("date_register")]
         public DateTime DateRegister { get; set; }

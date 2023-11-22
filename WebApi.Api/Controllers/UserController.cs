@@ -2,11 +2,17 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 using WebApi.Application.DTOs;
 using WebApi.Application.Interfaces;
 using WebApi.Application.services;
 using WebApi.Domain.Entities;
 using static System.Net.Mime.MediaTypeNames;
+using System.Net;
+using Newtonsoft.Json;
+using WebApi.Api.Utilities;
+
 namespace App.Controllers
 {
     [ApiController]
@@ -27,12 +33,7 @@ namespace App.Controllers
         {
             try
             {
-                var user = await _userServices.GetUserByIdAsync(id);
-
-                if (user is null)
-                    return NoContent();
-
-                return Ok(user);
+                return await JsonHelpers.SerializeToJsonResponseAsync(_userServices.GetUserByIdAsync(id));
             }
             catch (Exception ex)
             {
@@ -40,23 +41,33 @@ namespace App.Controllers
             }
         }
 
-        [HttpGet("{idCondominium}")]
+        [HttpGet("Condominium/{idCondominium}")]
         public async Task<ActionResult> GetUsersByCondominiumAsync(int idCondominium)
         {
             try
             {
-                var user = await _userServices.GetUsersByCondominiumAsync(idCondominium);
-
-                if (user is null)
-                    return NoContent();
-
-                return Ok(user);
+                return await JsonHelpers.SerializeToJsonResponseAsync(_userServices.GetUsersByCondominiumAsync(idCondominium));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpGet()]
+        public async Task<ActionResult> GetUsersAllAsync()
+        {
+            try
+            {
+                return await JsonHelpers.SerializeToJsonResponseAsync(_userServices.GetUsersAllAsync());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         [HttpPost]
         public async Task<ActionResult> RegisterItemAsync(UserDTO userDTO)

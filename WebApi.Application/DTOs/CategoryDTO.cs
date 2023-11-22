@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebApi.Domain.Entities;
+using WebApi.Domain.Entities.Enum;
 
 namespace WebApi.Application.DTOs
 {
@@ -12,6 +13,6 @@ namespace WebApi.Application.DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int StatusId { get; set; }
+        public StatusType StatusId { get; set; }
     }
 }

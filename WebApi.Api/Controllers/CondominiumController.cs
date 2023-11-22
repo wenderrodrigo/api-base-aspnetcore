@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Api.Utilities;
 using WebApi.Application.DTOs;
 using WebApi.Application.Interfaces;
 using WebApi.Application.services;
@@ -27,12 +28,7 @@ namespace App.Controllers
         {
             try
             {
-                var condominium = await _condominiumServices.GetCondominiumByIdAsync(id);
-
-                if (condominium is null)
-                    return NoContent();
-
-                return Ok(condominium);
+                return await JsonHelpers.SerializeToJsonResponseAsync(_condominiumServices.GetCondominiumByIdAsync(id));
             }
             catch (Exception ex)
             {
@@ -40,17 +36,25 @@ namespace App.Controllers
             }
         }
 
-        [HttpGet("{idUser}")]
+        [HttpGet("User/{idUser}")]
         public async Task<ActionResult> GetCondominiumsByUserAsync(int idUser)
         {
             try
             {
-                var condominium = await _condominiumServices.GetCondominiumsByUserAsync(idUser);
+                return await JsonHelpers.SerializeToJsonResponseAsync(_condominiumServices.GetCondominiumsByUserAsync(idUser));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-                if (condominium is null)
-                    return NoContent();
-
-                return Ok(condominium);
+        [HttpGet()]
+        public async Task<ActionResult> GetCondominiumsAllAsync()
+        {
+            try
+            {
+                return await JsonHelpers.SerializeToJsonResponseAsync(_condominiumServices.GetCondominiumsAllAsync());
             }
             catch (Exception ex)
             {

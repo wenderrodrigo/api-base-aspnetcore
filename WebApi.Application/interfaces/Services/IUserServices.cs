@@ -14,6 +14,8 @@ namespace WebApi.Application.Interfaces
 
         Task<List<User>> GetUsersByCondominiumAsync(int idCondominium);
 
+        Task<List<User>> GetUsersAllAsync();
+
         Task<User> RegisterUserAsync(UserDTO userDTO);
 
         Task<User> ChangeUserAsync(UserDTO userDTO);

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WebApi.Application.DTOs;
 using WebApi.Application.Interfaces.Repositories;
 using WebApi.Domain.Entities;
+using WebApi.Domain.Entities.Enum;
 using WebApiServicos.Context;
 
 namespace WebApi.Infrastructure.Repositories
@@ -37,6 +38,11 @@ namespace WebApi.Infrastructure.Repositories
                 .Where(x => x.UserCondominiums.Any(u=>u.Id == idUser))
                 .ToListAsync();
         }
+        public async Task<List<Condominium>> GetCondominiumsAllAsync()
+        {
+            return await _db.Condominiums
+                .ToListAsync();
+        }
 
         public async Task<Condominium> RegisterCondominiumAsync(Condominium condominium)
         {
@@ -45,7 +51,7 @@ namespace WebApi.Infrastructure.Repositories
                 Name = condominium.Name,
                 Cnpj = condominium.Cnpj,
                 DateRegister = DateTime.Now,
-                StatusId = 1,
+                StatusId = StatusType.Ativo,
                 DateChange = DateTime.Now
             };
 
@@ -62,6 +68,9 @@ namespace WebApi.Infrastructure.Repositories
             {
                 _db.Condominiums.Update(condominium);
                 await _db.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
                 return condominium;
             }
             catch

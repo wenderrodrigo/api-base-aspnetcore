@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Api.Utilities;
 using WebApi.Application.DTOs;
 using WebApi.Application.Interfaces;
 using WebApi.Domain.Entities;
@@ -27,11 +28,53 @@ namespace App.Controllers
         {
             try
             {
-                var item = await _itemsServices.GetItemByIdAsync(id);
+                return await JsonHelpers.SerializeToJsonResponseAsync(_itemsServices.GetItemByIdAsync(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-                if (item is null)
-                    return NoContent();
+        [HttpGet("User/{idUser}")]
+        public async Task<ActionResult> GetItemsByUserAsync(int idUser)
+        {
+            try
+            {
+                return await JsonHelpers.SerializeToJsonResponseAsync(_itemsServices.GetItemsByUserAsync(idUser));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
+        [HttpGet()]
+        public async Task<ActionResult> GetItemsAllAsync()
+        {
+            try
+            {
+                return await JsonHelpers.SerializeToJsonResponseAsync(_itemsServices.GetItemsAllAsync());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RegisterItemAsync(ItemDTO itemDto)
+        {
+            try
+            {
+                var validacao = await _itemsValidator.ValidateAsync(itemDto);
+
+                if (!validacao.IsValid)
+                {
+                    return BadRequest(validacao.Errors);
+                }
+
+                Item item = await _itemsServices.RegisterItemAsync(itemDto);
                 return Ok(item);
             }
             catch (Exception ex)
@@ -40,85 +83,46 @@ namespace App.Controllers
             }
         }
 
-        //[HttpGet("{idUser}")]
-        //public async Task<ActionResult> GetItemsByUserAsync(int idUser)
-        //{
-        //    try
-        //    {
-        //        var items = await _itemsServices.GetItemsByUserAsync(idUser);
+        [HttpPut]
+        public async Task<ActionResult> ChangeItemAsync(ItemDTO itemDto)
+        {
+            try
+            {
+                var validacao = await _itemsValidator.ValidateAsync(itemDto);
 
-        //        if (items is null)
-        //            return NoContent();
+                if (!validacao.IsValid)
+                {
+                    return BadRequest(validacao.Errors);
+                }
 
-        //        return Ok(items);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+                Item item = await _itemsServices.ChangeItemAsync(itemDto);
+                return Ok(item);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-        //[HttpPost]
-        //public async Task<ActionResult> RegisterItemAsync(ItemDTO itemDto)
-        //{
-        //    try
-        //    {
-        //        var validacao = await _itemsValidator.ValidateAsync(itemDto);
+        [HttpDelete]
+        public async Task<ActionResult> DeleteItemAsync(ItemDTO itemDTO)
+        {
+            try
+            {
+                var validacao = await _itemsValidator.ValidateAsync(itemDTO);
 
-        //        if (!validacao.IsValid)
-        //        {
-        //            return BadRequest(validacao.Errors);
-        //        }
+                if (!validacao.IsValid)
+                {
+                    return BadRequest(validacao.Errors);
+                }
 
-        //        Item item = await _itemsServices.RegisterItemAsync(itemDto);
-        //        return Ok(item);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-
-        //[HttpPut]
-        //public async Task<ActionResult> ChangeItemAsync(ItemDTO itemDto)
-        //{
-        //    try
-        //    {
-        //        var validacao = await _itemsValidator.ValidateAsync(itemDto);
-
-        //        if (!validacao.IsValid)
-        //        {
-        //            return BadRequest(validacao.Errors);
-        //        }
-
-        //        Item item = await _itemsServices.ChangeItemAsync(itemDto);
-        //        return Ok(item);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-
-        //[HttpDelete]
-        //public async Task<ActionResult> DeleteItemAsync(ItemDTO itemDTO)
-        //{
-        //    try
-        //    {
-        //        var validacao = await _itemsValidator.ValidateAsync(itemDTO);
-
-        //        if (!validacao.IsValid)
-        //        {
-        //            return BadRequest(validacao.Errors);
-        //        }
-
-        //        var deletedItem = await _itemsServices.DeleteItemAsync(itemDTO);
-        //        return Ok(deletedItem);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+                var deletedItem = await _itemsServices.DeleteItemAsync(itemDTO);
+                return Ok(deletedItem);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

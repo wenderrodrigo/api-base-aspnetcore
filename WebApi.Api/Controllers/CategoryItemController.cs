@@ -1,11 +1,12 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net;
+using WebApi.Api.Utilities;
 using WebApi.Application.DTOs;
 using WebApi.Application.Interfaces;
-using WebApi.Application.services;
 using WebApi.Domain.Entities;
-using static System.Net.Mime.MediaTypeNames;
+
 namespace App.Controllers
 {
     [ApiController]
@@ -21,17 +22,22 @@ namespace App.Controllers
             _categoryValidator = categoryValidator ?? throw new ArgumentNullException(nameof(categoryValidator));
         }
 
+        /// <summary>
+        /// Obtem a categoria pelo um Id.
+        /// </summary>
+        /// <param name="id">Id da categoria.</param>
+        /// <returns>Uma instância de <see cref="Category"/>.</returns>
+        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Solicitação obtida com sucesso.", Type = typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.NoContent, Description = "Nenhum dado encontrado.", Type = typeof(string))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, Description = "Parâmetro(s) não informado(s).", Type = typeof(string))]
+        //[Route("api/certificados/protocolo/{protocolo}")]
+        //[AcceptVerbs("Get")]
         [HttpGet("{id}")]
         public async Task<ActionResult> GetCategoryAsync(int id)
         {
             try
             {
-                var category = await _categoryServices.GetCategoryByIdAsync(id);
-
-                if (category is null)
-                    return NoContent();
-
-                return Ok(category);
+                return await JsonHelpers.SerializeToJsonResponseAsync(_categoryServices.GetCategoryByIdAsync(id));
             }
             catch (Exception ex)
             {
@@ -39,17 +45,12 @@ namespace App.Controllers
             }
         }
 
-        [HttpGet("{idItem}")]
+        [HttpGet("Item/{idItem}")]
         public async Task<ActionResult> GetCategoryByItemAsync(int id)
         {
             try
             {
-                var category = await _categoryServices.GetCategoryByItemAsync(id);
-
-                if (category is null)
-                    return NoContent();
-
-                return Ok(category);
+                return await JsonHelpers.SerializeToJsonResponseAsync(_categoryServices.GetCategoryByItemAsync(id));
             }
             catch (Exception ex)
             {
@@ -62,12 +63,7 @@ namespace App.Controllers
         {
             try
             {
-                var category = await _categoryServices.GetCategoriesAllAsync();
-
-                if (category is null)
-                    return NoContent();
-
-                return Ok(category);
+                return await JsonHelpers.SerializeToJsonResponseAsync(_categoryServices.GetCategoriesAllAsync());
             }
             catch (Exception ex)
             {

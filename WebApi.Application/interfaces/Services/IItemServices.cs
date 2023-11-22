@@ -14,6 +14,8 @@ namespace WebApi.Application.Interfaces
 
         Task<List<Item>> GetItemsByUserAsync(int idUser);
 
+        Task<List<Item>> GetItemsAllAsync();
+
         Task<Item> RegisterItemAsync(ItemDTO itemDTO);
 
         Task<Item> ChangeItemAsync(ItemDTO itemDTO);

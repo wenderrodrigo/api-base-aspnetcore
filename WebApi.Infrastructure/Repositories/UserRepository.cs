@@ -23,18 +23,29 @@ namespace WebApi.Infrastructure.Repositories
         public async Task<User?> GetUserByIdAsync(int? id)
         {
             User? user = await _db.Users
-                            .Where(item => item.Id == id)
-                            .FirstOrDefaultAsync();
-
-            //item ??= new Item();
+                                .Where(item => item.Id == id)
+                                .Include(item => item.UserCondominiums)
+                                    .ThenInclude(uc => uc.Condominium) // Incluir o Condominium relacionado com o UserCondominium
+                                .FirstOrDefaultAsync();
 
             return user;
         }
 
+
         public async Task<List<User>> GetUsersByCondominiumAsync(int idCondominium)
         {
             return await _db.Users
-                .Where(u => u.UserCondominiums.Any(c=>c.IdCondominium == idCondominium))
+                .Where(u => u.UserCondominiums.Any(c => c.IdCondominium == idCondominium))
+                .Include(item => item.UserCondominiums)
+                    .ThenInclude(uc => uc.Condominium) // Incluir o Condominium relacionado com o UserCondominium
+                .ToListAsync();
+        }
+
+        public async Task<List<User>> GetUsersAllAsync()
+        {
+            return await _db.Users
+                .Include(item => item.UserCondominiums)
+                    .ThenInclude(uc => uc.Condominium) // Incluir o Condominium relacionado com o UserCondominium
                 .ToListAsync();
         }
 
@@ -67,6 +78,9 @@ namespace WebApi.Infrastructure.Repositories
             {
                 _db.Users.Update(user);
                 await _db.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
                 return user;
             }
             catch

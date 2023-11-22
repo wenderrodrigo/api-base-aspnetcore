@@ -25,7 +25,7 @@ namespace WebApi.Application.DTOs
 
         public string PasswordHash { get; set; }
 
-        public string? StatusId { get; set; }
+        public StatusType StatusId { get; set; }
 
         public DateTime DateRegister { get; set; }
 

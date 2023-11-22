@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApi.Domain.Entities.Enum;
 
 namespace WebApi.Domain.Entities
 {
@@ -14,15 +15,19 @@ namespace WebApi.Domain.Entities
         public int Id { get; set; }
 
         [Column("id_user")]
-        public string IdUser { get; set; }
+        public int IdUser { get; set; }
 
         [Column("id_condominium")]
         public int IdCondominium { get; set; }
 
         [Column("status_id")]
-        public string? StatusId { get; set; }
+        public StatusType StatusId { get; set; }
 
+        [ForeignKey("IdUser")]
         public User User { get; set; }
+
+        [ForeignKey("IdCondominium")]
         public Condominium Condominium { get; set; }
     }
+
 }

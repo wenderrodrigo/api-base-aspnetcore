@@ -35,7 +35,7 @@ namespace WebApi.Infrastructure.Repositories
         public async Task<List<Category>> GetCategoriesAllAsync()
         {
             return await _db.Categories
-                .Where(item => item.StatusId == 1)
+                //.Where(item => item.StatusId == 1)
                 .ToListAsync();
         }
 
@@ -60,18 +60,21 @@ namespace WebApi.Infrastructure.Repositories
 
         public async Task<Category> ChangeCategoryAsync(Category category)
         {
-            var transaction = _db.Database.BeginTransaction();
+            using var transaction = await _db.Database.BeginTransactionAsync();
 
             try
             {
                 _db.Categories.Update(category);
                 await _db.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
                 return category;
             }
-            catch
+            catch (Exception ex)
             {
-                transaction.Rollback();
-                throw new Exception("Problema ao salvar os dados no banco");
+                await transaction.RollbackAsync(); // Desfaz a transação em caso de erro
+                throw new Exception("Problema ao salvar os dados no banco", ex);
             }
         }
 

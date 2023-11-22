@@ -15,7 +15,7 @@ namespace WebApi.Infrastructure.Repositories
     {
         private readonly AppDbContext _db;
 
-        public ItemRepository(AppDbContext db, ICategoryRepository categoryRepository)
+        public ItemRepository(AppDbContext db)
         {
             _db = db;
         }
@@ -35,6 +35,12 @@ namespace WebApi.Infrastructure.Repositories
         {
             return await _db.Items
                 .Where(item => item.IdUser == idUser)
+                .ToListAsync();
+        }
+
+        public async Task<List<Item>> GetItemsAllAsync()
+        {
+            return await _db.Items
                 .ToListAsync();
         }
 
@@ -62,6 +68,9 @@ namespace WebApi.Infrastructure.Repositories
             {
                 _db.Items.Update(item);
                 await _db.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
                 return item;
             }
             catch

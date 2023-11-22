@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebApi.Domain.Entities;
+using WebApi.Domain.Entities.Enum;
 
 namespace WebApi.Infrastructure.Database.Configuration;
 
@@ -23,7 +24,7 @@ public class UserConfig : IEntityTypeConfiguration<User>
         builder.Property(u => u.PasswordHash).HasMaxLength(45).IsRequired();
         builder.Property(u => u.DateRegister).IsRequired();
         builder.Property(u => u.DateChange).IsRequired(false);
-        builder.Property(u => u.StatusId).IsRequired();
-        builder.Property(u => u.UserType).IsRequired().HasDefaultValue(2); // Definindo o valor padrão para TypeUser
+        builder.Property(u => u.StatusId).IsRequired().HasDefaultValue(StatusType.Ativo);
+        builder.Property(u => u.UserType).IsRequired().HasDefaultValue(UserType.Inquilino); // Definindo o valor padrão para TypeUser
     }
 }
