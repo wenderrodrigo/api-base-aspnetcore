@@ -23,6 +23,8 @@ namespace WebApi.Infrastructure.Repositories
         public async Task<Item?> GetItemByIdAsync(int? id)
         {
             Item? item = await _db.Items
+                            .Include(item => item.Category)
+                            .Include(item => item.User)
                             .Where(item => item.Id == id)
                             .FirstOrDefaultAsync();
 
@@ -34,13 +36,17 @@ namespace WebApi.Infrastructure.Repositories
         public async Task<List<Item>> GetItemsByUserAsync(int idUser)
         {
             return await _db.Items
-                .Where(item => item.IdUser == idUser)
-                .ToListAsync();
+                        .Include(item => item.Category)
+                        .Include(item => item.User)
+                        .Where(item => item.IdUser == idUser)
+                        .ToListAsync();
         }
 
         public async Task<List<Item>> GetItemsAllAsync()
         {
             return await _db.Items
+                        .Include(item => item.Category)
+                        .Include(item => item.User)
                 .ToListAsync();
         }
 
@@ -49,9 +55,12 @@ namespace WebApi.Infrastructure.Repositories
             var itemCreated = new Item
             {
                 Name = item.Name,
+                Description = item.Description,
                 Category = item.Category,
+                User = item.User,
                 Price = item.Price,
                 Image = item.Image,
+                DateRegister = DateTime.Now,
                 DateChange = DateTime.Now
             };
 

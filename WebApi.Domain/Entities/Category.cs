@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using WebApi.Domain.Entities.Enum;
 
 namespace WebApi.Domain.Entities
@@ -14,7 +15,8 @@ namespace WebApi.Domain.Entities
         [Column("status_id")]
         public StatusType StatusId { get; set; }
 
-        // Relacionamento um-para-muitos com a classe Item
+
+        [JsonIgnore]
         public List<Item> Items { get; set; }
 
         public Category()

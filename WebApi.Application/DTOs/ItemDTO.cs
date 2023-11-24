@@ -14,6 +14,7 @@ namespace WebApi.Application.DTOs
         public int IdCategory { get; set; }
         public decimal Price { get; set; }
         public string Image { get; set; }
+        public int IdUser { get; set; }
         public DateTime DateChange { get; set; }
         public DateTime DateRegister { get; set; }
     }

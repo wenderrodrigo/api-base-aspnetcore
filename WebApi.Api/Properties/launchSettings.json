@@ -1,10 +1,10 @@
-﻿{
+{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:52378",
+      "applicationUrl": "http://10.206.167.68:52378", // Substitua pelo seu IP
       "sslPort": 44341
     }
   },
@@ -15,7 +15,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "sslPort": 5001,
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "applicationUrl": "https://10.206.167.68:5001;http://10.206.167.68:5000", // Substitua pelo seu IP
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Desenvolvimento"
       }
@@ -26,7 +26,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "sslPort": 5001,
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "applicationUrl": "https://10.206.167.68:5001;http://10.206.167.68:5000", // Substitua pelo seu IP
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Producao"
       }

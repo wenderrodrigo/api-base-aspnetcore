@@ -35,7 +35,7 @@ namespace WebApi.Infrastructure.Repositories
         public async Task<List<Condominium>> GetCondominiumsByUserAsync(int idUser)
         {
             return await _db.Condominiums
-                .Where(x => x.UserCondominiums.Any(u=>u.Id == idUser))
+                .Where(x => x.UserCondominiums.Any(u=>u.IdUser == idUser))
                 .ToListAsync();
         }
         public async Task<List<Condominium>> GetCondominiumsAllAsync()

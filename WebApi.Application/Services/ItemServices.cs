@@ -18,12 +18,15 @@ namespace WebApi.Application.services
         private readonly IMapper _mapper;
         private readonly IItemRepository _itemRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IUserRepository _userRepository;
 
         public ItemServices(IItemRepository itemRepository,
-            ICategoryRepository categoryRepository, IMapper mapper)
+            ICategoryRepository categoryRepository,
+            IUserRepository userRepository, IMapper mapper)
         {
             _itemRepository = itemRepository;
             _categoryRepository = categoryRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -45,7 +48,14 @@ namespace WebApi.Application.services
 
         public async Task<Item> RegisterItemAsync(ItemDTO itemDTO)
         {
+            // Obter a categoria pelo ID
+            var itemCategoryRegister = await _categoryRepository.GetCategoryByIdAsync(itemDTO.IdCategory) ?? throw new Exception("Categoria não encontrada para o ID informado.");
+            var itemUserRegister = await _userRepository.GetUserByIdAsync(itemDTO.IdUser) ?? throw new Exception("Categoria não encontrada para o ID informado.");
+
             var item = _mapper.Map<Item>(itemDTO);
+
+            item.Category = itemCategoryRegister;
+            item.User = itemUserRegister;
 
             return await _itemRepository.RegisterItemAsync(item);
         }
