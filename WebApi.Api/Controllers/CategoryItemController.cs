@@ -72,7 +72,7 @@ namespace App.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> RegisterItemAsync(CategoryDTO categoryDTO)
+        public async Task<ActionResult> RegisterCategoryAsync(CategoryDTO categoryDTO)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace App.Controllers
                 }
 
                 Category category = await _categoryServices.RegisterCategoryAsync(categoryDTO);
-                return Ok(category);
+                return CreatedAtAction(nameof(GetCategoryAsync), new { id = category.Id }, category);
             }
             catch (Exception ex)
             {
@@ -93,7 +93,7 @@ namespace App.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> ChangeItemAsync(CategoryDTO categoryDTO)
+        public async Task<ActionResult> ChangeCategoryAsync(CategoryDTO categoryDTO)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace App.Controllers
                 }
 
                 Category category = await _categoryServices.ChangeCategoryAsync(categoryDTO);
-                return Ok(category);
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -114,7 +114,7 @@ namespace App.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteItemAsync(CategoryDTO categoryDTO)
+        public async Task<ActionResult> DeleteCategoryAsync(CategoryDTO categoryDTO)
         {
             try
             {
@@ -126,7 +126,7 @@ namespace App.Controllers
                 }
 
                 var deletedCategory = await _categoryServices.DeleteCategoryAsync(categoryDTO);
-                return Ok(deletedCategory);
+                return NoContent();
             }
             catch (Exception ex)
             {

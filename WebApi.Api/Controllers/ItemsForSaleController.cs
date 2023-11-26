@@ -75,7 +75,7 @@ namespace App.Controllers
                 }
 
                 Item item = await _itemsServices.RegisterItemAsync(itemDto);
-                return Ok(item);
+                return StatusCode(201, item);
             }
             catch (Exception ex)
             {
@@ -96,7 +96,7 @@ namespace App.Controllers
                 }
 
                 Item item = await _itemsServices.ChangeItemAsync(itemDto);
-                return Ok(item);
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -117,7 +117,7 @@ namespace App.Controllers
                 }
 
                 var deletedItem = await _itemsServices.DeleteItemAsync(itemDTO);
-                return Ok(deletedItem);
+                return NoContent();
             }
             catch (Exception ex)
             {

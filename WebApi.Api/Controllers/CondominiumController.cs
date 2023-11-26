@@ -63,7 +63,7 @@ namespace App.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> RegisterItemAsync(CondominiumDTO condominiumDTO)
+        public async Task<ActionResult> RegisterCondominiumAsync(CondominiumDTO condominiumDTO)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace App.Controllers
                 }
 
                 Condominium condominium = await _condominiumServices.RegisterCondominiumAsync(condominiumDTO);
-                return Ok(condominium);
+                return CreatedAtAction(nameof(GetCondominiumByIdAsync), new { id = condominium.Id }, condominium);
             }
             catch (Exception ex)
             {
@@ -84,7 +84,7 @@ namespace App.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> ChangeItemAsync(CondominiumDTO condominiumDTO)
+        public async Task<ActionResult> ChangeCondominiumAsync(CondominiumDTO condominiumDTO)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace App.Controllers
                 }
 
                 Condominium condominium = await _condominiumServices.ChangeCondominiumAsync(condominiumDTO);
-                return Ok(condominium);
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -105,7 +105,7 @@ namespace App.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteItemAsync(CondominiumDTO condominiumDTO)
+        public async Task<ActionResult> DeleteCondominiumAsync(CondominiumDTO condominiumDTO)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace App.Controllers
                 }
 
                 var deleteCondominium = await _condominiumServices.DeleteCondominiumAsync(condominiumDTO);
-                return Ok(deleteCondominium);
+                return NoContent();
             }
             catch (Exception ex)
             {

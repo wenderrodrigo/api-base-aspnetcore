@@ -70,7 +70,7 @@ namespace App.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> RegisterItemAsync(UserDTO userDTO)
+        public async Task<ActionResult> RegisterUserAsync(UserDTO userDTO)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace App.Controllers
                 }
 
                 User user = await _userServices.RegisterUserAsync(userDTO);
-                return Ok(user);
+                return CreatedAtAction(nameof(GetUserByIdAsync), new { id = user.Id }, user);
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace App.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> ChangeItemAsync(UserDTO userDTO)
+        public async Task<ActionResult> ChangeUserAsync(UserDTO userDTO)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace App.Controllers
                 }
 
                 User user = await _userServices.ChangeUserAsync(userDTO);
-                return Ok(user);
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -112,7 +112,7 @@ namespace App.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteItemAsync(UserDTO userDTO)
+        public async Task<ActionResult> DeleteUserAsync(UserDTO userDTO)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace App.Controllers
                 }
 
                 var deleteUser = await _userServices.DeleteUserAsync(userDTO);
-                return Ok(deleteUser);
+                return NoContent();
             }
             catch (Exception ex)
             {
