@@ -49,6 +49,19 @@ namespace App.Controllers
             }
         }
 
+        [HttpGet("Category/{idCategory}")]
+        public async Task<ActionResult> GetItemsByCategoryAsync(int idCategory)
+        {
+            try
+            {
+                return await JsonHelpers.SerializeToJsonResponseAsync(_itemsServices.GetItemsByCategoryAsync(idCategory));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet()]
         public async Task<ActionResult> GetItemsAllAsync()
         {
@@ -105,18 +118,16 @@ namespace App.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteItemAsync(ItemDTO itemDTO)
+        public async Task<ActionResult> DeleteItemAsync(int idItem)
         {
             try
             {
-                var validacao = await _itemsValidator.ValidateAsync(itemDTO);
-
-                if (!validacao.IsValid)
+                if (idItem == 0)
                 {
-                    return BadRequest(validacao.Errors);
+                    return BadRequest();
                 }
 
-                var deletedItem = await _itemsServices.DeleteItemAsync(itemDTO);
+                var deletedItem = await _itemsServices.DeleteItemAsync(idItem);
                 return NoContent();
             }
             catch (Exception ex)

@@ -39,6 +39,17 @@ namespace WebApi.Infrastructure.Repositories
                         .Include(item => item.Category)
                         .Include(item => item.User)
                         .Where(item => item.IdUser == idUser)
+                        .OrderByDescending(item => item.DateRegister)
+                        .ToListAsync();
+        }
+
+        public async Task<List<Item>> GetItemsByCategoryAsync(int idCategory)
+        {
+            return await _db.Items
+                        .Include(item => item.Category)
+                        .Include(item => item.User)
+                        .Where(item => item.Category.Id == idCategory)
+                        .OrderByDescending(item => item.DateRegister)
                         .ToListAsync();
         }
 
@@ -47,6 +58,7 @@ namespace WebApi.Infrastructure.Repositories
             return await _db.Items
                         .Include(item => item.Category)
                         .Include(item => item.User)
+                        .OrderByDescending(item => item.DateRegister)
                 .ToListAsync();
         }
 

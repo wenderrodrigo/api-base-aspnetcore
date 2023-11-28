@@ -14,12 +14,14 @@ namespace WebApi.Application.Interfaces
 
         Task<List<Item>> GetItemsByUserAsync(int idUser);
 
+        Task<List<Item>> GetItemsByCategoryAsync(int idCategory);
+
         Task<List<Item>> GetItemsAllAsync();
 
         Task<Item> RegisterItemAsync(ItemDTO itemDTO);
 
         Task<Item> ChangeItemAsync(ItemDTO itemDTO);
 
-        Task<Item> DeleteItemAsync(ItemDTO itemDTO);
+        Task<Item> DeleteItemAsync(int idItem);
     }
 }

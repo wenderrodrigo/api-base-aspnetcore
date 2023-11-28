@@ -14,6 +14,8 @@ namespace WebApi.Application.Interfaces.Repositories
 
         Task<List<Item>> GetItemsByUserAsync(int idUser);
 
+        Task<List<Item>> GetItemsByCategoryAsync(int idCategory);
+
         Task<List<Item>> GetItemsAllAsync();
 
         Task<Item> RegisterItemAsync(Item item);

@@ -41,6 +41,11 @@ namespace WebApi.Application.services
             return await _itemRepository.GetItemsByUserAsync(idUser);
         }
 
+        public async Task<List<Item>> GetItemsByCategoryAsync(int idCategory)
+        {
+            return await _itemRepository.GetItemsByCategoryAsync(idCategory);
+        }
+
         public async Task<List<Item>> GetItemsAllAsync()
         {
             return await _itemRepository.GetItemsAllAsync();
@@ -80,9 +85,10 @@ namespace WebApi.Application.services
         }
 
 
-        public async Task<Item> DeleteItemAsync(ItemDTO itemDTO)
+        public async Task<Item> DeleteItemAsync(int idItem)
         {
-            var item = _mapper.Map<Item>(itemDTO);
+            // Obter o item pelo ID
+            Item? item = await _itemRepository.GetItemByIdAsync(idItem) ?? throw new Exception("Item não encontrado para o ID informado.");
 
             return await _itemRepository.DeleteItemAsync(item);
         }
