@@ -26,9 +26,6 @@ namespace WebApi.Domain.Entities
         [Column("price")]
         public decimal Price { get; set; }
 
-        [Column("image")]
-        public string Image { get; set; }
-
         [Column("id_user")]
         public int IdUser { get; set; }
 
@@ -43,5 +40,7 @@ namespace WebApi.Domain.Entities
 
         [ForeignKey("IdUser")]
         public User User { get; set; }
+
+        public List<ItemImage> ItemImages { get; set; } = new List<ItemImage>();
     }
 }

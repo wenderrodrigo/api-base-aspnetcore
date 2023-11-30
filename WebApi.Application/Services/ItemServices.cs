@@ -58,9 +58,11 @@ namespace WebApi.Application.services
             var itemUserRegister = await _userRepository.GetUserByIdAsync(itemDTO.IdUser) ?? throw new Exception("Categoria não encontrada para o ID informado.");
 
             var item = _mapper.Map<Item>(itemDTO);
+            List<ItemImage> itemImages = _mapper.Map<List<ItemImage>>(itemDTO.ItemImagesDTO);
 
             item.Category = itemCategoryRegister;
             item.User = itemUserRegister;
+            item.ItemImages = itemImages;
 
             return await _itemRepository.RegisterItemAsync(item);
         }
@@ -73,11 +75,13 @@ namespace WebApi.Application.services
             // Obter a categoria pelo ID
             var itemCategoryChanged = await _categoryRepository.GetCategoryByIdAsync(itemDTO.IdCategory) ?? throw new Exception("Categoria não encontrada para o ID informado.");
 
+            List<ItemImage> itemImages = _mapper.Map<List<ItemImage>>(itemDTO.ItemImagesDTO);
+
             // Atualizar os campos do item
             itemChanged.Name = itemDTO.Name;
             itemChanged.Category = itemCategoryChanged; // Corrigindo o typo 'itemCategoryChangedy'
             itemChanged.Price = itemDTO.Price;
-            itemChanged.Image = itemDTO.Image;
+            itemChanged.ItemImages = itemImages;
             itemChanged.DateChange = DateTime.Now;
 
             // Salvar as mudanças no item

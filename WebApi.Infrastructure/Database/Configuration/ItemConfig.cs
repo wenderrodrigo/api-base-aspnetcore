@@ -20,9 +20,6 @@ public class ItemConfig : IEntityTypeConfiguration<Item>
         builder.Property(a => a.Description).HasMaxLength(200).IsRequired();
         builder.Property(a => a.Price).HasColumnType("decimal(9,2)").IsRequired(); // Ajuste para decimal
 
-        // Ajustando o tamanho e permitindo valores nulos para Image
-        builder.Property(a => a.Image).HasMaxLength(200);
-
         builder.Property(a => a.IdUser).IsRequired();
         builder.Property(a => a.DateRegister).IsRequired();
 

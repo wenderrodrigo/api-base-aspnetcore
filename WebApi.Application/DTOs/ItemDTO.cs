@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApi.Domain.Entities;
 
 namespace WebApi.Application.DTOs
 {
@@ -17,5 +18,6 @@ namespace WebApi.Application.DTOs
         public int IdUser { get; set; }
         public DateTime DateChange { get; set; }
         public DateTime DateRegister { get; set; }
+        public List<ItemImageDTO> ItemImagesDTO { get; set; } = new List<ItemImageDTO>();
     }
 }

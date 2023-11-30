@@ -27,8 +27,6 @@ namespace WebApi.Infrastructure.Repositories
                             .Where(c => c.Id == id)
                             .FirstOrDefaultAsync();
 
-            //item ??= new Item();
-
             return condominium;
         }
 

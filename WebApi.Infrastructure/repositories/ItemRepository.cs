@@ -23,9 +23,17 @@ namespace WebApi.Infrastructure.Repositories
         public async Task<Item?> GetItemByIdAsync(int? id)
         {
             Item? item = await _db.Items
-                            .Include(item => item.Category)
-                            .Include(item => item.User)
                             .Where(item => item.Id == id)
+                            .Select(item => new Item
+                            {
+                                Id = item.Id,
+                                Name = item.Name,
+                                Description = item.Description,
+                                Price = item.Price,
+                                Category = item.Category,
+                                User = item.User,
+                                ItemImages = item.ItemImages
+                            })
                             .FirstOrDefaultAsync();
 
             //item ??= new Item();
@@ -36,31 +44,58 @@ namespace WebApi.Infrastructure.Repositories
         public async Task<List<Item>> GetItemsByUserAsync(int idUser)
         {
             return await _db.Items
-                        .Include(item => item.Category)
-                        .Include(item => item.User)
                         .Where(item => item.IdUser == idUser)
                         .OrderByDescending(item => item.DateRegister)
+                        .Select(item => new Item
+                        {
+                            Id = item.Id,
+                            Name = item.Name,
+                            Description = item.Description,
+                            Price = item.Price,
+                            Category = item.Category,
+                            User = item.User,
+                            ItemImages = item.ItemImages
+                        })
                         .ToListAsync();
         }
 
         public async Task<List<Item>> GetItemsByCategoryAsync(int idCategory)
         {
             return await _db.Items
-                        .Include(item => item.Category)
-                        .Include(item => item.User)
                         .Where(item => item.Category.Id == idCategory)
                         .OrderByDescending(item => item.DateRegister)
-                        .ToListAsync();
+                        .Select(item => new Item
+                        {
+                            Id = item.Id,
+                            Name = item.Name,
+                            Description = item.Description,
+                            Price = item.Price,
+                            Category = item.Category,
+                            User = item.User,
+                            ItemImages = item.ItemImages
+                        })
+                .ToListAsync();
         }
 
         public async Task<List<Item>> GetItemsAllAsync()
         {
-            return await _db.Items
-                        .Include(item => item.Category)
-                        .Include(item => item.User)
-                        .OrderByDescending(item => item.DateRegister)
+            var items = await _db.Items
+                .OrderByDescending(item => item.DateRegister)
+                .Select(item => new Item
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Description = item.Description,
+                    Price = item.Price,
+                    Category = item.Category,
+                    User = item.User,
+                    ItemImages = item.ItemImages
+                })
                 .ToListAsync();
+
+            return items;
         }
+
 
         public async Task<Item> RegisterItemAsync(Item item)
         {
@@ -71,7 +106,7 @@ namespace WebApi.Infrastructure.Repositories
                 Category = item.Category,
                 User = item.User,
                 Price = item.Price,
-                Image = item.Image,
+                ItemImages = item.ItemImages,
                 DateRegister = DateTime.Now,
                 DateChange = DateTime.Now
             };
