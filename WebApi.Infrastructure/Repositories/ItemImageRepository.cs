@@ -8,6 +8,7 @@ using WebApi.Application.DTOs;
 using WebApi.Application.Interfaces.Repositories;
 using WebApi.Domain.Entities;
 using WebApiServicos.Context;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WebApi.Infrastructure.Repositories
 {

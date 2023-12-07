@@ -110,11 +110,13 @@ namespace WebApi.Infrastructure.Repositories
                 DateRegister = DateTime.Now,
                 DateChange = DateTime.Now
             };
+            
 
             await _db.Items.AddAsync(itemCreated);
             await _db.SaveChangesAsync();
             return itemCreated;
         }
+
 
         public async Task<Item> ChangeItemAsync(Item item)
         {

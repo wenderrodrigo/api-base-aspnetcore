@@ -10,9 +10,11 @@ namespace WebApi.Application.Interfaces
 {
     public interface IItemImageServices
     {
-        Task<ItemImage> GetItemImageByIdAsync(int id);
+        Task<ItemImage?> GetItemImageByIdAsync(int id);
 
         Task<List<ItemImage>> GetItemImagesAllAsync();
+
+        //Task<string> SaveImageAsync(byte[] imageData, string fileName);
 
         Task<ItemImage> RegisterItemImageAsync(ItemImageDTO itemImageDTO);
 

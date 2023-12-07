@@ -17,7 +17,6 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSwaggerGen();
     builder.Services.AddInfrastruture(builder.Configuration);
     builder.Services.AddTransient();
-
     builder.Services.AddApplication();
     builder.Services.AddCors(options =>
     {
@@ -37,6 +36,7 @@ var app = builder.Build();
         ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
     });
     app.UseSwagger();
+    app.UseStaticFiles();
     app.UseSwaggerUI();
     app.UseHttpsRedirection();
     app.UseRouting();

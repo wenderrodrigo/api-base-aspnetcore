@@ -20,6 +20,8 @@ namespace WebApi.Infrastructure.Database.Configuration
             CreateMap<CondominiumDTO, Condominium>().ReverseMap();
             CreateMap<UserDTO, User>().ReverseMap();
             CreateMap<UserCondominiumDTO, UserCondominium>().ReverseMap();
+            CreateMap<ItemImageDTO, ItemImage>();
+                //.ForMember(dest => dest.FileImagem, opt => opt.Ignore());
         }
     }
 }

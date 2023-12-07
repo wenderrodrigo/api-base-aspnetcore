@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebApi.Domain.Entities
 {
@@ -19,6 +13,9 @@ namespace WebApi.Domain.Entities
 
         [Column("path_imagem")]
         public string PathImagem { get; set; }
+
+        [NotMapped]
+        public byte[] FileImagem { get; set; }
 
         [Column("date_register")]
         public DateTime DateRegister { get; set; }

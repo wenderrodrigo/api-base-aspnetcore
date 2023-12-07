@@ -17,6 +17,7 @@ namespace WebApi.Application.services
     {
         private readonly IMapper _mapper;
         private readonly IItemImageRepository _itemImageRepository;
+        private readonly string _imageStoragePath = "C:\\YourImageStorageDirectory\\"; // Caminho onde as imagens serão armazenadas
 
         public ItemImageServices(IItemImageRepository itemImageRepository,
             IMapper mapper)
@@ -24,7 +25,6 @@ namespace WebApi.Application.services
             _itemImageRepository = itemImageRepository;
             _mapper = mapper;
         }
-
 
         public async Task<ItemImage?> GetItemImageByIdAsync(int id)
         {
@@ -54,7 +54,6 @@ namespace WebApi.Application.services
             // Salvar as mudanças no item
             return await _itemImageRepository.ChangeItemImageAsync(itemChanged);
         }
-
 
         public async Task<ItemImage> DeleteItemImageAsync(int idItem)
         {

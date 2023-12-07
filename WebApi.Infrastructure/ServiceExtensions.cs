@@ -11,6 +11,7 @@ using WebApi.Application.DTOs;
 using WebApi.Application.Validations;
 using AutoMapper;
 using WebApi.Infrastructure.Database.Configuration;
+using WebApi.Domain.Entities;
 
 namespace WebApi.Infrastructure;
 
@@ -27,6 +28,7 @@ public static class DependencyInjection
         services.AddScoped<ICondominiumRepository, CondominiumRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserCondominiumRepository, UserCondominiumRepository>();
+        services.AddScoped<IItemImageRepository, ItemImageRepository>();
 
 
         // Adicione a configuração do AutoMapper
@@ -50,6 +52,7 @@ public static class DependencyInjection
         services.AddTransient<IUserServices, UserServices>();
         services.AddTransient<IUserCondominiumServices, UserCondominiumServices>();
         services.AddTransient<IValidator<ItemDTO>, ItemDTOValidator>();
+        services.AddTransient<IValidator<ItemImageDTO>, ItemImageDTOValidator>();
         services.AddTransient<IValidator<CategoryDTO>, CategoryDTOValidator>();
         services.AddTransient<IValidator<CondominiumDTO>, CondominiumDTOValidator>();
         services.AddTransient<IValidator<UserDTO>, UserDTOValidator>();
