@@ -31,6 +31,16 @@ namespace WebApi.Infrastructure.Repositories
             return images;
         }
 
+        public async Task<List<ItemImage?>> GetItemImageByItemIdAsync(int? idItem)
+        {
+            List<ItemImage?> images = await _db.ItemImages
+                            .Include(item => item.Item)
+                            .Where(item => item.Item.Id == idItem)
+                            .ToListAsync();
+
+            return images;
+        }
+
         public async Task<List<ItemImage>> GetItemImagesAllAsync()
         {
             return await _db.ItemImages

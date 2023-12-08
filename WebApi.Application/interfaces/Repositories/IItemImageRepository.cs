@@ -4,7 +4,9 @@ namespace WebApi.Application.Interfaces.Repositories
 {
     public interface IItemImageRepository
     {
-        Task<ItemImage> GetItemImageByIdAsync(int? id);
+        Task<ItemImage?> GetItemImageByIdAsync(int? id);
+        
+        Task<List<ItemImage?>> GetItemImageByItemIdAsync(int? idItem);
 
         Task<List<ItemImage>> GetItemImagesAllAsync();
 

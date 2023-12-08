@@ -31,6 +31,11 @@ namespace WebApi.Application.services
             return await _itemImageRepository.GetItemImageByIdAsync(id);
         }
 
+        public async Task<List<ItemImage?>> GetItemImageByItemIdAsync(int? idItem)
+        {
+            return await _itemImageRepository.GetItemImageByItemIdAsync(idItem);
+        }
+
         public async Task<List<ItemImage>> GetItemImagesAllAsync()
         {
             return await _itemImageRepository.GetItemImagesAllAsync();

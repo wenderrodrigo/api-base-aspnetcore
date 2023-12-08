@@ -124,12 +124,35 @@ namespace WebApi.Infrastructure.Repositories
 
             try
             {
-                _db.Items.Update(item);
-                await _db.SaveChangesAsync();
+                var existingItem = await _db.Items
+                    .Include(i => i.ItemImages)
+                    .FirstOrDefaultAsync(i => i.Id == item.Id);
 
-                await transaction.CommitAsync();
+                if (existingItem != null)
+                {
+                    existingItem.Name = item.Name;
+                    existingItem.Category = item.Category;
+                    existingItem.Price = item.Price;
+                    existingItem.DateChange = DateTime.Now;
 
-                return item;
+                    // Remove as imagens associadas ao item
+                    _db.ItemImages.RemoveRange(existingItem.ItemImages);
+
+                    // Adiciona as novas imagens
+                    foreach (var image in item.ItemImages)
+                    {
+                        existingItem.ItemImages.Add(image);
+                    }
+
+                    await _db.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    return existingItem;
+                }
+                else
+                {
+                    throw new Exception("Item não encontrado para o ID informado.");
+                }
             }
             catch
             {

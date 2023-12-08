@@ -12,6 +12,8 @@ namespace WebApi.Application.Interfaces
     {
         Task<ItemImage?> GetItemImageByIdAsync(int id);
 
+        Task<List<ItemImage?>> GetItemImageByItemIdAsync(int? idItem);
+
         Task<List<ItemImage>> GetItemImagesAllAsync();
 
         //Task<string> SaveImageAsync(byte[] imageData, string fileName);
