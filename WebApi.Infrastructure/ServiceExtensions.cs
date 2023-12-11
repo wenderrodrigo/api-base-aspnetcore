@@ -23,13 +23,18 @@ public static class DependencyInjection
 
         services.AddDbContext<AppDbContext>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-        services.AddScoped<IItemRepository, ItemRepository>();
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        //General
         services.AddScoped<ICondominiumRepository, CondominiumRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserCondominiumRepository, UserCondominiumRepository>();
+
+        //Adverts
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IItemRepository, ItemRepository>();
         services.AddScoped<IItemImageRepository, ItemImageRepository>();
 
+        //Condominium communication
+        services.AddScoped<ICondominiumNotificationRepository, CondominiumNotificationRepository>();
 
         // Adicione a configuração do AutoMapper
         var mapperConfig = new MapperConfiguration(cfg =>
@@ -46,18 +51,33 @@ public static class DependencyInjection
 
     public static IServiceCollection AddTransient(this IServiceCollection services)
     {
-        services.AddTransient<IItemServices, ItemServices>();
-        services.AddTransient<ICategoryServices, CategoryServices>();
+
+        //General
         services.AddTransient<ICondominiumServices, CondominiumServices>();
         services.AddTransient<IUserServices, UserServices>();
         services.AddTransient<IUserCondominiumServices, UserCondominiumServices>();
-        services.AddTransient<IValidator<ItemDTO>, ItemDTOValidator>();
-        services.AddTransient<IValidator<ItemImageDTO>, ItemImageDTOValidator>();
-        services.AddTransient<IValidator<CategoryDTO>, CategoryDTOValidator>();
+
+        //Adverts
+        services.AddTransient<ICategoryServices, CategoryServices>();
+        services.AddTransient<IItemServices, ItemServices>();
+        services.AddTransient<IItemImageServices, ItemImageServices>();
+
+        //Condominium communication
+        services.AddTransient<ICondominiumNotificationServices, CondominiumNotificationServices>();
+
+
+        //General
         services.AddTransient<IValidator<CondominiumDTO>, CondominiumDTOValidator>();
         services.AddTransient<IValidator<UserDTO>, UserDTOValidator>();
         services.AddTransient<IValidator<UserCondominiumDTO>, UserCondominiumDTOValidator>();
-        //services.AddTransient<IValidator<UserCondominiumDTO>, UserCondominiumDTOValidator>();
+
+        //Adverts
+        services.AddTransient<IValidator<CategoryDTO>, CategoryDTOValidator>();
+        services.AddTransient<IValidator<ItemDTO>, ItemDTOValidator>();
+        services.AddTransient<IValidator<ItemImageDTO>, ItemImageDTOValidator>();
+
+        //Condominium communication
+        services.AddTransient<IValidator<CondominiumNotificationDTO>, CondominiumNotificationDTOValidator>();
 
         return services;
     }

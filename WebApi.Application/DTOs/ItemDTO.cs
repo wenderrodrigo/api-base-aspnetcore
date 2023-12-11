@@ -1,6 +1,4 @@
-﻿using WebApi.Domain.Entities;
-
-namespace WebApi.Application.DTOs
+﻿namespace WebApi.Application.DTOs
 {
     public class ItemDTO
     {

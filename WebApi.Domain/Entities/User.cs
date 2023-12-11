@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebApi.Domain.Entities.Enum;
 
 namespace WebApi.Domain.Entities
@@ -42,5 +37,9 @@ namespace WebApi.Domain.Entities
         public Nullable<DateTime> DateChange { get; set; }
 
         public List<UserCondominium> UserCondominiums { get; set; } = new List<UserCondominium>();
+
+        public List<CondominiumNotification> CondominiumNotifications { get; set; } = new List<CondominiumNotification>();
+        public List<NotificationUser> NotificationUsers { get; set; } = new List<NotificationUser>();
+
     }
 }

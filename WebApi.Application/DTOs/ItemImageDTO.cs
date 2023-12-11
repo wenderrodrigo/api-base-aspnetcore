@@ -1,4 +1,4 @@
-﻿namespace WebApi.Domain.Entities
+﻿namespace WebApi.Application.DTOs
 {
     public class ItemImageDTO
     {

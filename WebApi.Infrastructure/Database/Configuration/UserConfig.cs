@@ -26,5 +26,13 @@ public class UserConfig : IEntityTypeConfiguration<User>
         builder.Property(u => u.DateChange).IsRequired(false);
         builder.Property(u => u.StatusId).IsRequired().HasDefaultValue(StatusType.Ativo);
         builder.Property(u => u.UserType).IsRequired().HasDefaultValue(UserType.Inquilino); // Definindo o valor padrão para TypeUser
+
+        builder.HasMany(cn => cn.CondominiumNotifications)
+                   .WithOne(nu => nu.UserCreate)
+                   .HasForeignKey(nu => nu.IdUserCreate);
+
+        builder.HasMany(cn => cn.NotificationUsers)
+                   .WithOne(nu => nu.User)
+                   .HasForeignKey(nu => nu.IdUser);
     }
 }

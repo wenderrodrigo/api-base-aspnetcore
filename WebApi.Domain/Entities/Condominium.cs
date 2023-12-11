@@ -30,5 +30,7 @@ namespace WebApi.Domain.Entities
         public Nullable<DateTime> DateChange { get; set; }
 
         public List<UserCondominium> UserCondominiums { get; set; } = new List<UserCondominium>();
+
+        public List<CondominiumNotification> CondominiumNotifications { get; set; } = new List<CondominiumNotification>();
     }
 }
