@@ -23,7 +23,7 @@ namespace App.Controllers
             _condominiumNotificationValidator = condominiumNotificationValidator ?? throw new ArgumentNullException(nameof(condominiumNotificationValidator));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetCondominiumNotificationById")]
         public async Task<ActionResult> GetCondominiumNotificationByIdAsync(int id)
         {
             try
@@ -101,7 +101,7 @@ namespace App.Controllers
                 }
 
                 var condominiumNotification = await _condominiumNotificationServices.RegisterCondominiumNotificationAsync(condominiumNotificationDTO);
-                return CreatedAtAction(nameof(GetCondominiumNotificationByIdAsync), new { id = condominiumNotification.Id }, condominiumNotification);
+                return CreatedAtAction("GetCondominiumNotificationById", new { id = condominiumNotification.Id }, condominiumNotification);
             }
             catch (Exception ex)
             {

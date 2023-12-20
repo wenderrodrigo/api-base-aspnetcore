@@ -98,6 +98,7 @@ namespace WebApi.Infrastructure.Repositories
                                 Condominium = n.Condominium,
                                 IdTypeReceiving = n.IdTypeReceiving,
                             })
+                            .OrderByDescending(n => n.Id)
                             .ToListAsync();
 
             return notification;
@@ -106,6 +107,16 @@ namespace WebApi.Infrastructure.Repositories
         public async Task<List<CondominiumNotification>> GetCondominiumNotificationsAllAsync()
         {
             return await _db.CondominiumNotifications
+                            .Select(n => new CondominiumNotification
+                            {
+                                Id = n.Id,
+                                Title = n.Title,
+                                Message = n.Message,
+                                DateRegister = n.DateRegister,
+                                NotificationUsers = n.NotificationUsers,
+                                UserCreate = n.UserCreate,
+                                IdTypeReceiving = n.IdTypeReceiving,
+                            })
                 .ToListAsync();
         }
 

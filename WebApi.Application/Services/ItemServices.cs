@@ -71,11 +71,11 @@ namespace WebApi.Application.services
             return await _itemRepository.RegisterItemAsync(item);
         }
 
-        public async Task<string> SaveImageAsync(byte[] imageData, int idItem, string fileName)
+        public async Task<string> SaveImageAsync(string imageStoragePath, byte[] imageData, int idItem, string fileName)
         {
             try
             {
-                string itemPath = Path.Combine(_imageStoragePath, idItem.ToString());
+                string itemPath = Path.Combine(imageStoragePath, idItem.ToString());
                 string imagePath = Path.Combine(itemPath, fileName);
 
                 // Verifica se o diretório de armazenamento de imagens existe, senão, cria-o
@@ -105,7 +105,7 @@ namespace WebApi.Application.services
                 if (image.FileImagem.Length > 0)
                 {
                     // Salvar a imagem em um local e obter o caminho, por exemplo:
-                    var imagePath = await SaveImageAsync(image.FileImagem, image.IdItem, image.Id.ToString() + ".png");
+                    var imagePath = await SaveImageAsync(_imageStoragePath, image.FileImagem, image.IdItem, image.Id.ToString() + ".png");
                     //// Onde ImageStorageService é um serviço que lida com o armazenamento das imagens
 
                     //// Adicionar o caminho da imagem à lista de caminhos

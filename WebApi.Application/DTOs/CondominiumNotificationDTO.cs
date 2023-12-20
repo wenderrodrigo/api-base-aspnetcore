@@ -9,9 +9,9 @@ namespace WebApi.Application.DTOs
         public TypeReceiving IdTypeReceiving { get; set; }
         public string Title { get; set; }
         public string Message { get; set; }
-        public int IdUser { get; set; }
+        public int IdUserCreate { get; set; }
         public DateTime DateRegister { get; set; }
-        public List<CondominiumNotificationFileDTO> CondominiumNotificationFiles { get; set; } = new List<CondominiumNotificationFileDTO>();
-        public List<NotificationUserDTO> NotificationUsers { get; set; } = new List<NotificationUserDTO>();
+        public List<CondominiumNotificationFileDTO>? CondominiumNotificationFiles { get; set; }
+        public List<NotificationUserDTO?>? NotificationUsers { get; set; }
     }
 }

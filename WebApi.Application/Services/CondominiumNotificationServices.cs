@@ -20,6 +20,7 @@ namespace WebApi.Application.services
         private readonly ICondominiumNotificationRepository _condominiumNotificationRepository;
         private readonly ICondominiumRepository _condominiumRepository;
         private readonly IUserRepository _userRepository;
+        private readonly string _imageStoragePath = "C:\\Program Files\\VertrigoServ\\www\\YourFileStorageDirectory\\"; // Caminho onde as imagens serão armazenadas
 
         public CondominiumNotificationServices(
             ICondominiumNotificationRepository condominiumNotificationRepository,
@@ -63,7 +64,8 @@ namespace WebApi.Application.services
         {
 
             var condominio = await _condominiumRepository.GetCondominiumByIdAsync(notificationDTO.IdCondominium);
-            var userCreate = await _userRepository.GetUserByIdAsync(notificationDTO.IdUser);
+            var userCreate = await _userRepository.GetUserByIdAsync(notificationDTO.IdUserCreate
+                );
 
             var notification = _mapper.Map<CondominiumNotification>(notificationDTO);
 
@@ -90,14 +92,32 @@ namespace WebApi.Application.services
                 Title = notification.Title,
                 Message = notification.Message,
                 DateRegister = DateTime.Now,
-                CondominiumNotificationFiles = notification.CondominiumNotificationFiles,
+                CondominiumNotificationFiles = new List<CondominiumNotificationFile>(),
                 Condominium = condominio,
                 IdTypeReceiving = notification.IdTypeReceiving,
                 NotificationUsers = notificationUsers,
                 UserCreate = userCreate,
             };
 
-            return await _condominiumNotificationRepository.RegisterCondominiumNotificationAsync(notificationCreate);
+            foreach (var item in notificationDTO.CondominiumNotificationFiles)
+            {
+                CondominiumNotificationFile condominiumNotificationFile = new CondominiumNotificationFile();
+                condominiumNotificationFile.PathFile = item.NameFile;
+                notificationCreate.CondominiumNotificationFiles.Add(condominiumNotificationFile);
+            }
+
+            CondominiumNotification notificationRetorno = await _condominiumNotificationRepository.RegisterCondominiumNotificationAsync(notificationCreate);
+
+            foreach (var item in notificationDTO.CondominiumNotificationFiles)
+            {
+                if (notificationRetorno.CondominiumNotificationFiles.Count > 0)
+                    item.IdCondominiumNotification = notificationRetorno.CondominiumNotificationFiles.FirstOrDefault().IdCondominiumNotification;
+            }
+
+            if (notificationDTO.CondominiumNotificationFiles != null)
+                await SaveFilesAsync(notificationDTO.CondominiumNotificationFiles, condominio.Id);
+
+            return notificationRetorno;
         }
 
         public async Task<CondominiumNotification> DeleteCondominiumNotificationAsync(CondominiumNotificationDTO notificationDTO)
@@ -105,6 +125,89 @@ namespace WebApi.Application.services
             var notification = _mapper.Map<CondominiumNotification>(notificationDTO);
 
             return await _condominiumNotificationRepository.DeleteCondominiumNotificationAsync(notification);
+        }
+
+        public async Task<string> SaveFileAsync(string fileStoragePath, dynamic fileData, int condominioId, int idItem, string fileName)
+        {
+            string imagePath = string.Empty;
+            try
+            {
+                byte[] fileConvertData = null;
+
+                // Verifica se fileData já é um array de bytes
+                if (fileData is byte[])
+                {
+                    fileConvertData = (byte[])fileData;
+                }
+                else
+                {
+                    // Se não for um array de bytes, tenta converter de base64 para bytes
+                    try
+                    {
+                        fileConvertData = Convert.FromBase64String(fileData.ToString());
+                    }
+                    catch (FormatException ex)
+                    {
+                        // Lidere com exceção se a conversão falhar
+                        Console.WriteLine($"Erro na conversão de base64 para bytes: {ex.Message}");
+                        // Aqui você pode decidir como lidar com a falha na conversão, talvez fornecer um valor padrão para fileConvertData
+                    }
+                }
+
+                if (fileConvertData != null)
+                {
+                    string condominiumPath = Path.Combine(fileStoragePath, condominioId.ToString());
+                    string itemPath = Path.Combine(condominiumPath, idItem.ToString());
+                    imagePath = Path.Combine(itemPath, fileName);
+
+                    // Verifica se o diretório de armazenamento de imagens existe, senão, cria-o
+                    if (!Directory.Exists(condominiumPath))
+                    {
+                        Directory.CreateDirectory(condominiumPath);
+                    }
+
+                    // Verifica se o diretório de armazenamento de imagens existe, senão, cria-o
+                    if (!Directory.Exists(itemPath))
+                    {
+                        Directory.CreateDirectory(itemPath);
+                    }
+
+                    // Salva a imagem no disco
+                    try
+                    {
+                        await File.WriteAllBytesAsync(imagePath, fileConvertData);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Erro ao salvar a imagem: {ex.Message}");
+                    }
+                }
+
+
+                return imagePath; // Retorna o caminho onde a imagem foi armazenada
+            }
+            catch (Exception ex)
+            {
+                // Trate o erro de maneira apropriada para o seu caso
+                throw new Exception("Erro ao salvar o arquivo", ex);
+            }
+        }
+
+        private async Task<List<string>> SaveFilesAsync(List<CondominiumNotificationFileDTO> files, int condominioId = 0)
+        {
+            List<string> filePaths = new List<string>();
+
+            foreach (var file in files)
+            {
+                // Salvar a imagem em um local e obter o caminho, por exemplo:
+                var filePath = await SaveFileAsync(_imageStoragePath, file.PathFile, condominioId, file.IdCondominiumNotification, file.NameFile);
+                //// Onde ImageStorageService é um serviço que lida com o armazenamento das imagens
+
+                //// Adicionar o caminho da imagem à lista de caminhos
+                filePaths.Add(filePath);
+            }
+
+            return filePaths;
         }
 
     }
