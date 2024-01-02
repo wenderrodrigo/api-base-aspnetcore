@@ -22,5 +22,13 @@ public class CondominiumConfig : IEntityTypeConfiguration<Condominium>
         builder.Property(c => c.DateRegister).IsRequired();
         builder.Property(c => c.DateChange).IsRequired(false);
         builder.Property(c => c.StatusId).IsRequired().HasDefaultValue(StatusType.Ativo); // Definindo o valor padrão para StatusId
+
+        builder.HasMany(cn => cn.UserCondominiums)
+                   .WithOne(nu => nu.Condominium)
+                   .HasForeignKey(nu => nu.IdCondominium);
+
+        builder.HasMany(cn => cn.CondominiumNotifications)
+                   .WithOne(nu => nu.Condominium)
+                   .HasForeignKey(nu => nu.IdCondominium);
     }
 }

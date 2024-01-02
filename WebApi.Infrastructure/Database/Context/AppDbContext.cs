@@ -21,6 +21,7 @@ public class AppDbContext : DbContext
     public DbSet<Condominium> Condominiums { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<UserCondominium> UsersCondominiums { get; set; }
+    public DbSet<UserResidence> UsersResidences { get; set; }
     public DbSet<ItemImage> ItemImages { get; set; }
     public DbSet<CondominiumNotification> CondominiumNotifications { get; set; }
     public DbSet<CondominiumNotificationFile> CondominiumNotificationFiles { get; set; }

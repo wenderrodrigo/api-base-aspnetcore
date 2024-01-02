@@ -20,5 +20,9 @@ public class UserCondominiumConfig : IEntityTypeConfiguration<UserCondominium>
         builder.Property(u => u.IdCondominium).HasMaxLength(11).IsRequired();
         builder.Property(u => u.IdUser).HasMaxLength(11).IsRequired();
         builder.Property(u => u.StatusId).IsRequired();
+
+        builder.HasMany(cn => cn.UsersResidences)
+                   .WithOne(nu => nu.UserCondominium)
+                   .HasForeignKey(nu => nu.UserIdCondominium);
     }
 }

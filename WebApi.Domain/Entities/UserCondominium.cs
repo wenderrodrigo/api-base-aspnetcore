@@ -28,6 +28,8 @@ namespace WebApi.Domain.Entities
 
         [ForeignKey("IdCondominium")]
         public Condominium Condominium { get; set; }
+
+        public List<UserResidence> UsersResidences { get; set; } = new List<UserResidence>();
     }
 
 }

@@ -37,7 +37,9 @@ namespace WebApi.Infrastructure.Repositories
             return await _db.Users
                 .Where(u => u.UserCondominiums.Any(c => c.IdCondominium == idCondominium))
                 .Include(item => item.UserCondominiums)
-                    .ThenInclude(uc => uc.Condominium) // Incluir o Condominium relacionado com o UserCondominium
+                    .ThenInclude(uc => uc.Condominium)
+                .Include(item => item.UserCondominiums)
+                    .ThenInclude(c => c.UsersResidences)
                 .ToListAsync();
         }
 

@@ -24,6 +24,7 @@ namespace WebApi.Infrastructure.Database.Configuration
             CreateMap<CondominiumNotificationDTO, CondominiumNotification>();
             CreateMap<CondominiumNotificationFileDTO, CondominiumNotificationFile>();
             CreateMap<NotificationUserDTO, NotificationUser>();
+            CreateMap<UserResidenceDTO, UserResidence>();
                 //.ForMember(dest => dest.FileImagem, opt => opt.Ignore());
         }
     }

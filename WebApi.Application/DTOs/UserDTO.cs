@@ -25,5 +25,7 @@ namespace WebApi.Application.DTOs
         public Nullable<DateTime> DateChange { get; set; }
 
         public int IdUserCondominium { get; set; }
+
+        public List<UserResidenceDTO> UsersResidencesDTO { get; set; }
     }
 }
